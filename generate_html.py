@@ -1,4 +1,14 @@
+def generate_html_from_videos(file_path="videos.txt", output_path="index.html"):
+    try:
+        with open(file_path, "r", encoding="utf-8") as file:
+            videos = []
+            for line in file:
+                if "|" in line:
+                    videos.append(line.strip().split("|"))
+                else:
+                    print(f"Skipping invalid line: {line.strip()}")
 
+        html_content = """
         <!DOCTYPE html>
         <html lang="ar">
         <head>
@@ -157,67 +167,17 @@
                     placeholder="ابحث عن فيديو..."
                     onkeyup="filterVideos()">
                 <div id="video-gallery">
-        
+        """
+
+        for video_id, title in videos:
+            html_content += f"""
                     <div class="video-box">
-                        <iframe src="https://www.youtube.com/embed/7Org1VlhK1I" allowfullscreen></iframe>
-                        <p>قصة رجل الغاز الغامض</p>
+                        <iframe src="https://www.youtube.com/embed/{video_id}" allowfullscreen></iframe>
+                        <p>{title}</p>
                     </div>
-            
-                    <div class="video-box">
-                        <iframe src="https://www.youtube.com/embed/QjM7V6zXpJw" allowfullscreen></iframe>
-                        <p>قصة الأطفال الخضر</p>
-                    </div>
-            
-                    <div class="video-box">
-                        <iframe src="https://www.youtube.com/embed/kBUOwQvbMMo" allowfullscreen></iframe>
-                        <p>قصة الرجل الذي أكل كل شيء</p>
-                    </div>
-            
-                    <div class="video-box">
-                        <iframe src="https://www.youtube.com/embed/DulwLVU1bJk" allowfullscreen></iframe>
-                        <p>قصة الصبي الذي عاد من البحر</p>
-                    </div>
-            
-                    <div class="video-box">
-                        <iframe src="https://www.youtube.com/embed/3vu525gpfUA" allowfullscreen></iframe>
-                        <p>لماذا صنع الإمبراطور الأول جيشًا من الطين</p>
-                    </div>
-            
-                    <div class="video-box">
-                        <iframe src="https://www.youtube.com/embed/pryUXNtM_l4" allowfullscreen></iframe>
-                        <p>حكاية وحش البحيرة المجهول</p>
-                    </div>
-            
-                    <div class="video-box">
-                        <iframe src="https://www.youtube.com/embed/S7_4F0n66pI" allowfullscreen></iframe>
-                        <p>قصة أول رواية في التاريخ</p>
-                    </div>
-            
-                    <div class="video-box">
-                        <iframe src="https://www.youtube.com/embed/l44eZpgZ3iI" allowfullscreen></iframe>
-                        <p>قصة إنفجار سيبيريا الغامض</p>
-                    </div>
-            
-                    <div class="video-box">
-                        <iframe src="https://www.youtube.com/embed/rE-ekM23fLI" allowfullscreen></iframe>
-                        <p>حكاية حضارة سومر ووحوشها</p>
-                    </div>
-            
-                    <div class="video-box">
-                        <iframe src="https://www.youtube.com/embed/w7F5Yu88OWk" allowfullscreen></iframe>
-                        <p>حكاية حق الآباء في إعدام الأبناء</p>
-                    </div>
-            
-                    <div class="video-box">
-                        <iframe src="https://www.youtube.com/embed/re_WX7FbQ9A" allowfullscreen></iframe>
-                        <p>حكاية بحارة أكلو صديقهم</p>
-                    </div>
-            
-                    <div class="video-box">
-                        <iframe src="https://www.youtube.com/embed/pqSkjqEqQ08" allowfullscreen></iframe>
-                        <p>حكاية الرجل المبتسم</p>
-                    </div>
-            
+            """
+
+        html_content += """
                 </div>
             </main>
             <footer>
@@ -225,4 +185,14 @@
             </footer>
         </body>
         </html>
-        
+        """
+
+        with open(output_path, "w", encoding="utf-8") as output_file:
+            output_file.write(html_content)
+        print(f"HTML generated successfully: {output_path}")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Generate the HTML file
+generate_html_from_videos()
